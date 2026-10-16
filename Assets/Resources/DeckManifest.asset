@@ -1,0 +1,328 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d8d43a393721e45a0b4a16ae9be689, type: 3}
+  m_Name: DeckManifest
+  m_EditorClassIdentifier: BatsSolitaire.Runtime::BatsSolitaire.Presentation.DeckManifest
+  Back: {fileID: 21300000, guid: 6b7d569d9ca3d6649b2b967976d1983f, type: 3}
+  Cards:
+  - Suit: 0
+    Rank: 1
+    Sprite: {fileID: 21300000, guid: 1e879cde4347b4141a0725044ec5e427, type: 3}
+    CommonNamePt: Morcego-negro
+    CommonNameEn: Black myotis
+    ScientificName: Myotis nigricans
+  - Suit: 0
+    Rank: 2
+    Sprite: {fileID: 21300000, guid: e25508f28208d644f89b4a5d6ca5fca2, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Black mastiff bat
+    ScientificName: Molossus rufus
+  - Suit: 0
+    Rank: 3
+    Sprite: {fileID: 21300000, guid: 2816c74ba5765cc4cb61626948a72e25, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Southern yellow bat
+    ScientificName: Lasiurus ega
+  - Suit: 0
+    Rank: 4
+    Sprite: {fileID: 21300000, guid: 899cc30b7e5460c498faf00c81801a1e, type: 3}
+    CommonNamePt: Morcego-vermelho
+    CommonNameEn: Red bat
+    ScientificName: Lasiurus blossevillii
+  - Suit: 0
+    Rank: 5
+    Sprite: {fileID: 21300000, guid: 61c4af0f19f89744e94a3b2e33965d88, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Argentine brown bat
+    ScientificName: Eptesicus furinalis
+  - Suit: 0
+    Rank: 6
+    Sprite: {fileID: 21300000, guid: 6ea182b2f2161f54785422431f4f7ce9, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Riparian myotis
+    ScientificName: Myotis riparius
+  - Suit: 0
+    Rank: 7
+    Sprite: {fileID: 21300000, guid: c3d9a48477d7b434eb5cbaf308cf26de, type: 3}
+    CommonNamePt: Morcego-de-tromba
+    CommonNameEn: Proboscis bat
+    ScientificName: Rhynchonycteris naso
+  - Suit: 0
+    Rank: 8
+    Sprite: {fileID: 21300000, guid: f2448279fee755c46813d690b1b46775, type: 3}
+    CommonNamePt: Morcego-bainha-de-cauda
+    CommonNameEn: Greater sac-winged bat
+    ScientificName: Saccopteryx bilineata
+  - Suit: 0
+    Rank: 9
+    Sprite: {fileID: 21300000, guid: 74278a9de2b0699459397ee8a09ab27b, type: 3}
+    CommonNamePt: "Morcego-de-bolsa-amaz\xF4nico"
+    CommonNameEn: Amazonian sac-winged bat
+    ScientificName: Saccopteryx gymnura
+  - Suit: 0
+    Rank: 10
+    Sprite: {fileID: 21300000, guid: fa38e9b8561941b499bbe81a4bbb44b5, type: 3}
+    CommonNamePt: Morcego-de-nariz-de-garrafa
+    CommonNameEn: Parnell's mustached bat
+    ScientificName: Pteronotus parnellii
+  - Suit: 0
+    Rank: 11
+    Sprite: {fileID: 21300000, guid: fde007b0f3c60f0438240040eaeea96d, type: 3}
+    CommonNamePt: Morcego-buldogue
+    CommonNameEn: Lesser bulldog bat
+    ScientificName: Noctilio albiventris
+  - Suit: 0
+    Rank: 12
+    Sprite: {fileID: 21300000, guid: 75d14a3034f5019469d160b0522f019c, type: 3}
+    CommonNamePt: Morceguinho-do-cerrado
+    CommonNameEn: Dekeyser's nectar bat
+    ScientificName: Lonchophylla dekeyseri
+  - Suit: 0
+    Rank: 13
+    Sprite: {fileID: 21300000, guid: b65cdb7e0b702c846ab3b392e2333f72, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Tilda's yellow-shouldered bat
+    ScientificName: Sturnira tildae
+  - Suit: 1
+    Rank: 1
+    Sprite: {fileID: 21300000, guid: e5a3700c6250d9c408e2657fecc8fa9c, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Fringe-lipped bat
+    ScientificName: Trachops cirrhosus
+  - Suit: 1
+    Rank: 2
+    Sprite: {fileID: 21300000, guid: 3cab37a26c142e64b8183c20652b57a5, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Niceforo's big-eared bat
+    ScientificName: Trinycteris nicefori
+  - Suit: 1
+    Rank: 3
+    Sprite: {fileID: 21300000, guid: e039401d2be4cdc4b84aa9e056005af7, type: 3}
+    CommonNamePt: Morcego-sussurrante
+    CommonNameEn: Tent-making bat
+    ScientificName: Uroderma bilobatum
+  - Suit: 1
+    Rank: 4
+    Sprite: {fileID: 21300000, guid: 5f1cd3263bc2a2a4bb8bd25317eec063, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Brown tent-making bat
+    ScientificName: Uroderma magnirostrum
+  - Suit: 1
+    Rank: 5
+    Sprite: {fileID: 21300000, guid: 974e18c22ce39b543800d0c75ad719f1, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Cinnamon dog-faced bat
+    ScientificName: Cynomops abrasus
+  - Suit: 1
+    Rank: 6
+    Sprite: {fileID: 21300000, guid: 6bc9dc3ed03f2d64e8ecd785785b2bc4, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Southern dog-faced bat
+    ScientificName: Cynomops planirostris
+  - Suit: 1
+    Rank: 7
+    Sprite: {fileID: 21300000, guid: cb38a446c35cba54e909e37ee165ea7a, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Wagner's bonneted bat
+    ScientificName: Eumops glaucinus
+  - Suit: 1
+    Rank: 8
+    Sprite: {fileID: 21300000, guid: 381f8dbb06f7dff48bcf9c9482a97b5a, type: 3}
+    CommonNamePt: "Morcego-an\xE3o-cara-de-cachorro"
+    CommonNameEn: Dwarf dog-faced bat
+    ScientificName: Molossops temminckii
+  - Suit: 1
+    Rank: 9
+    Sprite: {fileID: 21300000, guid: 1662e81b14bc15f4bb1a7ede765a445d, type: 3}
+    CommonNamePt: Morcego-narigudo-grande
+    CommonNameEn: Broad-eared free-tailed bat
+    ScientificName: Nictinomops laticaudatus
+  - Suit: 1
+    Rank: 10
+    Sprite: {fileID: 21300000, guid: 2b38c73cdee022043a15d26efdd09d7e, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Pallas's mastiff bat
+    ScientificName: Molossus molossus
+  - Suit: 1
+    Rank: 11
+    Sprite: {fileID: 21300000, guid: 5f499dab1c8ea29418328b150015fea9, type: 3}
+    CommonNamePt: Morcego-nariz-de-espada
+    CommonNameEn: "Tom\xE8s's sword-nosed bat"
+    ScientificName: Lonchorhina aurita
+  - Suit: 1
+    Rank: 12
+    Sprite: {fileID: 21300000, guid: 3d6923cbd8dbcc84e8bf959409e7cbeb, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Big naked-backed bat
+    ScientificName: Pteronotus gymnonotus
+  - Suit: 1
+    Rank: 13
+    Sprite: {fileID: 21300000, guid: 6c5287435085c4a4b976648cd945da4c, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Devivo's disk-winged bat
+    ScientificName: Thiroptera devivoi
+  - Suit: 2
+    Rank: 1
+    Sprite: {fileID: 21300000, guid: 8fd2552049927d74baf19ac488c3d5e0, type: 3}
+    CommonNamePt: Morcego-das-frutas
+    CommonNameEn: Flat-faced fruit-eating bat
+    ScientificName: Artibeus planirostris
+  - Suit: 2
+    Rank: 2
+    Sprite: {fileID: 21300000, guid: 7a04160deb41e264aa942fe02d3d33ad, type: 3}
+    CommonNamePt: Morcego-vampiro-de-asas-brancas
+    CommonNameEn: White-winged vampire bat
+    ScientificName: Diaemus youngii
+  - Suit: 2
+    Rank: 3
+    Sprite: {fileID: 21300000, guid: be83579f3375b4f4b9b05d08b7680fa6, type: 3}
+    CommonNamePt: Morcego-beija-flor
+    CommonNameEn: Pallas's long-tongued bat
+    ScientificName: Glossophaga soricina
+  - Suit: 2
+    Rank: 4
+    Sprite: {fileID: 21300000, guid: 7c93e4bc2928cda43a3f6b6d4d2d8714, type: 3}
+    CommonNamePt: Morcego-de-cauda-curta
+    CommonNameEn: Seba's short-tailed bat
+    ScientificName: Carollia perspicillata
+  - Suit: 2
+    Rank: 5
+    Sprite: {fileID: 21300000, guid: a61aa316dd3805b49bd5dc4e13ee2eca, type: 3}
+    CommonNamePt: Morcego-das-frutas
+    CommonNameEn: Great fruit-eating bat
+    ScientificName: Artibeus lituratus
+  - Suit: 2
+    Rank: 6
+    Sprite: {fileID: 21300000, guid: 796927bd8f6b187428426e2de2a79438, type: 3}
+    CommonNamePt: Morcego-vampiro
+    CommonNameEn: Common vampire bat
+    ScientificName: Desmodus rotundus
+  - Suit: 2
+    Rank: 7
+    Sprite: {fileID: 21300000, guid: dc69c8f5007a15244a7f3a5b3a4aeaae, type: 3}
+    CommonNamePt: Morcego-das-frutas
+    CommonNameEn: Dark fruit-eating bat
+    ScientificName: Artibeus obscurus
+  - Suit: 2
+    Rank: 8
+    Sprite: {fileID: 21300000, guid: 719e81eecae504b4da73afa2db8c30c6, type: 3}
+    CommonNamePt: Morcego-das-frutas
+    CommonNameEn: Silver fruit-eating bat
+    ScientificName: Artibeus cinereus
+  - Suit: 2
+    Rank: 9
+    Sprite: {fileID: 21300000, guid: 9dc70baea3da0b3448b75a67f9c045de, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Striped hairy-nosed bat
+    ScientificName: Gardnerycteris crenulatum
+  - Suit: 2
+    Rank: 10
+    Sprite: {fileID: 21300000, guid: a93c0de0fe292d143af93653bb2a1c2d, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Thomas's nectar bat
+    ScientificName: Hsunycteris thomasi
+  - Suit: 2
+    Rank: 11
+    Sprite: {fileID: 21300000, guid: cf4a9a10c510c4444865128729d0efc9, type: 3}
+    CommonNamePt: Morcego-de-linha-branca
+    CommonNameEn: White-lined broad-nosed bat
+    ScientificName: Platyrrhinus lineatus
+  - Suit: 2
+    Rank: 12
+    Sprite: {fileID: 21300000, guid: 5f8f9a80651c2f540bae963a2aa40dd1, type: 3}
+    CommonNamePt: Morcego-das-frutas
+    CommonNameEn: Dwarf fruit-eating bat
+    ScientificName: Artibeus gnomus
+  - Suit: 2
+    Rank: 13
+    Sprite: {fileID: 21300000, guid: a1a0d7b68ee80a645883de03e108e355, type: 3}
+    CommonNamePt: Morcego-focinhudo
+    CommonNameEn: Geoffroy's tailless bat
+    ScientificName: Anoura geoffroyi
+  - Suit: 3
+    Rank: 1
+    Sprite: {fileID: 21300000, guid: 75176633ee59cec4da1f1073af376c4b, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Pygmy round-eared bat
+    ScientificName: Lophostoma brasiliense
+  - Suit: 3
+    Rank: 2
+    Sprite: {fileID: 21300000, guid: dece1df202a957446b837983739d2186, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: White-throated round-eared bat
+    ScientificName: Lophostoma silvicola
+  - Suit: 3
+    Rank: 3
+    Sprite: {fileID: 21300000, guid: 1ae59b041c7cc0e4a9242c2fdbfd2f50, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Tiny big-eared bat
+    ScientificName: Micronycteris minuta
+  - Suit: 3
+    Rank: 4
+    Sprite: {fileID: 21300000, guid: 020061302f7956d4e886a6fbeea787b5, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Pale-faced bat
+    ScientificName: Phylloderma stenops
+  - Suit: 3
+    Rank: 5
+    Sprite: {fileID: 21300000, guid: 43dede75636eae24eb63de674b4d0198, type: 3}
+    CommonNamePt: "Morcego-focinho-de-lan\xE7a-p\xE1lido"
+    CommonNameEn: Pale spear-nosed bat
+    ScientificName: Phyllostomus discolor
+  - Suit: 3
+    Rank: 6
+    Sprite: {fileID: 21300000, guid: a7d351ef18f75584ea1fc786dbe23b91, type: 3}
+    CommonNamePt: Morcego-de-nariz-lanceolado
+    CommonNameEn: Greater spear-nosed bat
+    ScientificName: Phyllostomus hastatus
+  - Suit: 3
+    Rank: 7
+    Sprite: {fileID: 21300000, guid: dd1b26259d38b224f8ea549863fbbf23, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Dusky broad-nosed bat
+    ScientificName: Platyrrhinus fusciventris
+  - Suit: 3
+    Rank: 8
+    Sprite: {fileID: 21300000, guid: 23724ce6415dfdf428ecedd31542d5db, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Dwarf little fruit bat
+    ScientificName: Rhinophylla pumilio
+  - Suit: 3
+    Rank: 9
+    Sprite: {fileID: 21300000, guid: cdbe71c84cf8acf448c10b8e08faccde, type: 3}
+    CommonNamePt: Morcego-de-ombro-amarelo
+    CommonNameEn: Little yellow-shouldered bat
+    ScientificName: Sturnira lilium
+  - Suit: 3
+    Rank: 10
+    Sprite: {fileID: 21300000, guid: 12a8958776c4710439cd47191f3366ae, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Striped round-eared bat
+    ScientificName: Tonatia maresi
+  - Suit: 3
+    Rank: 11
+    Sprite: {fileID: 21300000, guid: b2d6f7790a9b4a243bc70fa0a7f79550, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Dog-like bat
+    ScientificName: Peropteryx sp
+  - Suit: 3
+    Rank: 12
+    Sprite: {fileID: 21300000, guid: 52b5e4735a5c6c84bbba13bb407620b1, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Chestnut sac-winged bat
+    ScientificName: Cormura sp
+  - Suit: 3
+    Rank: 13
+    Sprite: {fileID: 21300000, guid: bf2e6b25544218347b0f613d414730c8, type: 3}
+    CommonNamePt: Morcego
+    CommonNameEn: Samborn's big-eared bat
+    ScientificName: Micronycteris samborni

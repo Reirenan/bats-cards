@@ -1,0 +1,7 @@
+{
+  "name": "BatsSolitaire.Editor",
+  "rootNamespace": "BatsSolitaire.Editor",
+  "references": ["BatsSolitaire.Runtime"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}

@@ -1,0 +1,269 @@
+﻿{
+    "entries":  [
+                    {
+                        "key":  "Hearts_Ace",
+                        "page":  2,
+                        "sha256":  "4ADD86D738B11BB16E6ECA73B378DE3D9550C2274B0948F64B0D68D1E6FF6CF3"
+                    },
+                    {
+                        "key":  "Hearts_Two",
+                        "page":  4,
+                        "sha256":  "80FB225BB53F717B1FD29FFD756824E5CE3D1A95D78F89E21216F3510B477BEE"
+                    },
+                    {
+                        "key":  "Hearts_Three",
+                        "page":  6,
+                        "sha256":  "8332EBB5CE95FD64A27D73A8C3036504A639B0786E971EC2DBF734FDAB89D923"
+                    },
+                    {
+                        "key":  "Hearts_Four",
+                        "page":  8,
+                        "sha256":  "FE6EADF6B5BD413ED6C224544346A4051AD7CC29FB1A9B810E3E8BD9CED802CE"
+                    },
+                    {
+                        "key":  "Hearts_Five",
+                        "page":  10,
+                        "sha256":  "3733C498A218EBCCFF93FC8244A64771C71296509EED9BE08A3371BA69994BA0"
+                    },
+                    {
+                        "key":  "Hearts_Six",
+                        "page":  12,
+                        "sha256":  "4895D1B294DA8D765371BDB8B24778BBEA64CAB5A84EC66FAC03DDCF2D6E8FEE"
+                    },
+                    {
+                        "key":  "Hearts_Seven",
+                        "page":  14,
+                        "sha256":  "FE6B8FF2A003FAD79A11699D5799A93A1C534EDD41D521FACA89260E7ABD9AE0"
+                    },
+                    {
+                        "key":  "Hearts_Eight",
+                        "page":  16,
+                        "sha256":  "9C0AD892B7228E71A30ACA9496DC38154A2E5859A402A2430EB78EC8926839BF"
+                    },
+                    {
+                        "key":  "Hearts_Nine",
+                        "page":  18,
+                        "sha256":  "9065C288D3B8C62B8A59390438AE57A4621DEA837379C05392C1ECC5B9549827"
+                    },
+                    {
+                        "key":  "Hearts_Ten",
+                        "page":  20,
+                        "sha256":  "D2D7AEBAE1E13E40246E6EBFC3FB5C5AECC9B4C66B7AF29496827D34B4AF241B"
+                    },
+                    {
+                        "key":  "Hearts_Jack",
+                        "page":  22,
+                        "sha256":  "9681462293FA826192D90C1689BAEBD257A51B97935C376B67DCE7EE62CA1E82"
+                    },
+                    {
+                        "key":  "Hearts_Queen",
+                        "page":  24,
+                        "sha256":  "30201418016CDA4EE7675076D9A8A5FE36B902694F0585968D791CE4AFF50E54"
+                    },
+                    {
+                        "key":  "Hearts_King",
+                        "page":  26,
+                        "sha256":  "BA85861BB8FBAE04123512F08DF6417374DFE39D7AD120C169EEC392255EADF8"
+                    },
+                    {
+                        "key":  "Clubs_Ace",
+                        "page":  28,
+                        "sha256":  "58D9D44BA194B18F7FBE19602C69111F115D687A090F1F1764EF0C8A44CF9E23"
+                    },
+                    {
+                        "key":  "Clubs_Two",
+                        "page":  30,
+                        "sha256":  "7BCC1F67D5D8CD567F74A284D31D462CD7F7F6743C8EC7928D10D7BAD9A66218"
+                    },
+                    {
+                        "key":  "Clubs_Three",
+                        "page":  32,
+                        "sha256":  "CCF975A5FACBD54AB3D9D437999E1F7050D11F3F8B8BEFD91A150B7E358C0120"
+                    },
+                    {
+                        "key":  "Clubs_Four",
+                        "page":  34,
+                        "sha256":  "5DABF794879152E9332FDD4AD191A910AABA598BEC012CC3C1FFD17BD5FDF0A4"
+                    },
+                    {
+                        "key":  "Clubs_Five",
+                        "page":  36,
+                        "sha256":  "7C40049ECC885680466D6A935B82B33E6EC891983319EBEF4383F93B116AC8A3"
+                    },
+                    {
+                        "key":  "Clubs_Six",
+                        "page":  38,
+                        "sha256":  "A5FC44F9FFFC531B77C4E64F1853BD374B1B715A311B619E94EB6E3C3F2D5B57"
+                    },
+                    {
+                        "key":  "Clubs_Seven",
+                        "page":  40,
+                        "sha256":  "C8DE6A06E59712EC985145BAAF059839E5761ABEA3F90FF725D571BEFD8D6267"
+                    },
+                    {
+                        "key":  "Clubs_Eight",
+                        "page":  42,
+                        "sha256":  "3F743C2DCEF8F3990A3B6B2496B85149C9BFF203BBFFC7BD721A96E5AE948A40"
+                    },
+                    {
+                        "key":  "Clubs_Nine",
+                        "page":  44,
+                        "sha256":  "DD269D906494E1B0A6E5F23D70423B72571C68B562E9D30BF0933E8C2D8E402B"
+                    },
+                    {
+                        "key":  "Clubs_Ten",
+                        "page":  46,
+                        "sha256":  "D29E5C2C7015D6AC4F5E169BCEB1BB193952B06055FDDC73B62BDAC75C9AFB38"
+                    },
+                    {
+                        "key":  "Clubs_Jack",
+                        "page":  48,
+                        "sha256":  "2FD346DA73AC5A8790C74DE550877CD013FE2A0FD769D8D175F6DE31683883F3"
+                    },
+                    {
+                        "key":  "Clubs_Queen",
+                        "page":  50,
+                        "sha256":  "2D32712EF735FB350E3F9C5ACC046B0305DAFDC6FDF9DB74ADB015839938DE2D"
+                    },
+                    {
+                        "key":  "Clubs_King",
+                        "page":  52,
+                        "sha256":  "8B87D8146AEB15827CDBDEEF25F0480737D4CC3F7244398D6A44C5561C7950F1"
+                    },
+                    {
+                        "key":  "Spades_Ace",
+                        "page":  54,
+                        "sha256":  "B909EE1F1FA9B3A9B1D0E23455A0BBBF32A8708613465E52E7559EAEA4ECF99E"
+                    },
+                    {
+                        "key":  "Spades_Two",
+                        "page":  56,
+                        "sha256":  "BA605BF527AA0465BF8EDE0710A77C39348058BF794F9DB9160103ECC72EDC0A"
+                    },
+                    {
+                        "key":  "Spades_Three",
+                        "page":  58,
+                        "sha256":  "74A6E386DE7E6B15C0428E5EE418AC348AD386C1C2A91775E646E47C872A2057"
+                    },
+                    {
+                        "key":  "Spades_Four",
+                        "page":  60,
+                        "sha256":  "564279F23CD61E98C5C74B48C2231A04138D55712CB53E42F2957C3606C4878A"
+                    },
+                    {
+                        "key":  "Spades_Five",
+                        "page":  62,
+                        "sha256":  "29E4C1F1B1C389F507F869B48A3638571CC88AE17F1674A9A0350C0873B0D538"
+                    },
+                    {
+                        "key":  "Spades_Six",
+                        "page":  64,
+                        "sha256":  "3D7334C06BC0095F128E2852D70AD39F0D69FE00442A4DD1954839C16CC5DB31"
+                    },
+                    {
+                        "key":  "Spades_Seven",
+                        "page":  66,
+                        "sha256":  "207F935E1B47329779CEC31FAEE3074CAD808DC9E60599BD75F5E4E3175B5B54"
+                    },
+                    {
+                        "key":  "Spades_Eight",
+                        "page":  68,
+                        "sha256":  "B812E9D1BF50D2A318C27FE96EBB13A27183E7FBFA741D0E55F4F05F8B7135CA"
+                    },
+                    {
+                        "key":  "Spades_Nine",
+                        "page":  70,
+                        "sha256":  "203E9DF4C115BBC77ACC96EF1FF4E2F091BB9B8FC28DFF8CD36695B433F03504"
+                    },
+                    {
+                        "key":  "Spades_Ten",
+                        "page":  72,
+                        "sha256":  "8729207FB57D85052C7F86B718DD118BCCA6F0C1BBD015501EEEE364ECAAF14C"
+                    },
+                    {
+                        "key":  "Spades_Jack",
+                        "page":  74,
+                        "sha256":  "86F4BE44CA10DD07FAB51CDBFB61A9CA58B935CFDC32DEDF4B5FA77CCB1363B6"
+                    },
+                    {
+                        "key":  "Spades_Queen",
+                        "page":  76,
+                        "sha256":  "1919F19664B3CCDD1843201BE7FBAD463A293C0227E9C694437E27EB50B40699"
+                    },
+                    {
+                        "key":  "Spades_King",
+                        "page":  78,
+                        "sha256":  "33C6837D92DF1404B88F0ABCB2EBCF5703A1DC6A3181445EB219E37D514605C2"
+                    },
+                    {
+                        "key":  "Diamonds_Ace",
+                        "page":  80,
+                        "sha256":  "5FCB0F63703374388A062403322AAA329BD938497F838EAFC6FB8CEF9D62D327"
+                    },
+                    {
+                        "key":  "Diamonds_Two",
+                        "page":  82,
+                        "sha256":  "936EAB34A0F3322EDAB5902E9A445E19267BDB443B6CFC0B9C241DAFC6E4C4AB"
+                    },
+                    {
+                        "key":  "Diamonds_Three",
+                        "page":  84,
+                        "sha256":  "D639E530119CE243964BB8C7FB01E491280AEC340CB31259A891EAE06A18463F"
+                    },
+                    {
+                        "key":  "Diamonds_Four",
+                        "page":  86,
+                        "sha256":  "E539765B12EB2C81E937634A54F4D45A97F1E738802DF8DF11F9EFEAAB571C5E"
+                    },
+                    {
+                        "key":  "Diamonds_Five",
+                        "page":  88,
+                        "sha256":  "11D67DBCCC0EF5BEF7916E99F6748573C611C206F1F200E7ED2300A0B75963DB"
+                    },
+                    {
+                        "key":  "Diamonds_Six",
+                        "page":  90,
+                        "sha256":  "BCC17591E0063615B0A7657C3A83D0D1F685269495B19DA767226916BBEE5071"
+                    },
+                    {
+                        "key":  "Diamonds_Seven",
+                        "page":  92,
+                        "sha256":  "607CC5AA7FD83AAA1067E1EF521FA96DF825A035F3BF6B0B0C5F6EE89B5AF02A"
+                    },
+                    {
+                        "key":  "Diamonds_Eight",
+                        "page":  94,
+                        "sha256":  "B6FF92FA23130343AC384417C0F19C8CE3CCE029B735970B8B64D31EF62DEB98"
+                    },
+                    {
+                        "key":  "Diamonds_Nine",
+                        "page":  96,
+                        "sha256":  "B03037B771E30F2EC5F5DADDA52196B88AC8EECE4CDEA5D9317689C096A2E84B"
+                    },
+                    {
+                        "key":  "Diamonds_Ten",
+                        "page":  98,
+                        "sha256":  "E6466E52BDF00F5CEE1BFEB283314F0AD3F3A253B118DC11D305F51115938903"
+                    },
+                    {
+                        "key":  "Diamonds_Jack",
+                        "page":  100,
+                        "sha256":  "D36A360BD9EB4999E1DD79188730CD0C4C09BA6DEBA66D57B2D2746BAF3F52F0"
+                    },
+                    {
+                        "key":  "Diamonds_Queen",
+                        "page":  102,
+                        "sha256":  "1A94F3B9D9500D80CC6638455A5EA77481061E1E9C8279699750234F254A98D3"
+                    },
+                    {
+                        "key":  "Diamonds_King",
+                        "page":  104,
+                        "sha256":  "C0D3AAC0D6EC3AB2E40876F9A763B37FF621FCE3BC6604A6D3CA72944B24DCA4"
+                    },
+                    {
+                        "key":  "Back",
+                        "page":  1,
+                        "sha256":  "934FF430FAE1D5950FB20781553A9AB92FF44F8F96C83468E24836758DFDA90B"
+                    }
+                ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "BatsSolitaire.Runtime",
+  "rootNamespace": "BatsSolitaire",
+  "references": [
+    "Unity.InputSystem"
+  ],
+  "autoReferenced": true
+}

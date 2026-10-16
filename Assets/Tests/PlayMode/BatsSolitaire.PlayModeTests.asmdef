@@ -1,0 +1,6 @@
+{
+  "name": "BatsSolitaire.PlayModeTests",
+  "references": ["BatsSolitaire.Runtime"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "autoReferenced": true
+}

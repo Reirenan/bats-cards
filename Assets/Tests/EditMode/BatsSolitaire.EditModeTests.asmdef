@@ -1,0 +1,7 @@
+{
+  "name": "BatsSolitaire.EditModeTests",
+  "references": ["BatsSolitaire.Runtime"],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": true
+}
