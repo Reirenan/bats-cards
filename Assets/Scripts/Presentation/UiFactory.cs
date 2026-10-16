@@ -108,12 +108,12 @@ namespace BatsSolitaire.Presentation
             icon.transform.SetParent(button.transform, false);
             var r = icon.GetComponent<RectTransform>();
             r.anchorMin = r.anchorMax = new Vector2(0, 0.5f);
-            r.anchoredPosition = new Vector2(Pixels(button.transform, 22), 0);
-            r.sizeDelta = Vector2.one * Pixels(button.transform, 20);
+            r.anchoredPosition = new Vector2(Pixels(button.transform, 25), 0);
+            r.sizeDelta = Vector2.one * Pixels(button.transform, 30);
             icon.GetComponent<UiIcon>().Kind = kind;
             icon.GetComponent<UiIcon>().color = Ivory;
             icon.GetComponent<UiIcon>().raycastTarget = false;
-            button.GetComponentInChildren<Text>().rectTransform.offsetMin = new Vector2(Pixels(button.transform, 40), 2);
+            button.GetComponentInChildren<Text>().rectTransform.offsetMin = new Vector2(Pixels(button.transform, 50), 2);
         }
 
         public static void SetAccent(Button button)

@@ -38,6 +38,7 @@ namespace BatsSolitaire.Presentation
         private readonly Dictionary<string, Vector2> previousPositions = new();
         private bool layoutOnly;
         private bool autoRunning;
+        private GameObject hintTarget;
 
         public void Initialize(GameSession session, SaveService saves, TextCatalog text, Canvas canvas, AudioService audio, Action showMenu)
         {
@@ -95,7 +96,7 @@ namespace BatsSolitaire.Presentation
             brand.fontStyle = FontStyle.Bold;
             status = UiFactory.Label(bar.transform, string.Empty, 23, TextAnchor.MiddleCenter,
                 new Vector2(0.11f, 0), new Vector2(0.50f, 1), new Color(0.96f, 0.92f, 0.84f));
-            var auto = AddTopButton(bar.transform, "Auto", 0.57f, 0.68f, StartAutoComplete);
+            var auto = AddTopButton(bar.transform, text.Get("auto_move"), 0.57f, 0.68f, StartAutomaticMove);
             UiFactory.SetAccent(auto);
             AddTopButton(bar.transform, text.Get("undo"), 0.69f, 0.80f, () => session.Undo());
             AddTopButton(bar.transform, text.Get("hint"), 0.81f, 0.91f, ShowHint);
@@ -166,6 +167,8 @@ namespace BatsSolitaire.Presentation
                 Destroy(card);
             }
             renderedCards.Clear();
+            if (hintTarget != null) Destroy(hintTarget);
+            hintTarget = null;
             selectedSource = null;
             selectedView = null;
             if (detailsButton != null) detailsButton.SetActive(false);
@@ -183,7 +186,9 @@ namespace BatsSolitaire.Presentation
             var height = board.rect.height > 0 ? board.rect.height : 1080;
             var availableWidth = width * 0.98f;
             var cardWidth = Mathf.Min(availableWidth / 7.2f, height * 0.16f);
-            cardSize = new Vector2(cardWidth, cardWidth * 1.42f);
+            var aspect = manifest != null && manifest.Back != null
+                ? manifest.Back.rect.height / manifest.Back.rect.width : 1.416f;
+            cardSize = new Vector2(cardWidth, cardWidth * aspect);
             var left = -availableWidth * 0.5f + cardWidth * 0.5f;
             var gap = (availableWidth - cardWidth) / 6f;
             var headerFraction = UiFactory.ScreenWidth < 600 ? Mathf.Max(0.16f, 104f / UiFactory.ScreenHeight) : Mathf.Max(0.09f, 64f / UiFactory.ScreenHeight);
@@ -309,6 +314,9 @@ namespace BatsSolitaire.Presentation
 
         private void OnCardClicked(CardView card, bool doubleClick)
         {
+            if (autoRunning) return;
+            CancelInvoke(nameof(ClearHint));
+            ClearHint();
             if (card.Source.Kind == PileKind.Stock)
             {
                 TryDraw();
@@ -338,35 +346,57 @@ namespace BatsSolitaire.Presentation
 
         private void OnCardDragEnded(CardView card, Vector2 screenPosition)
         {
+            if (autoRunning) return;
+            CancelInvoke(nameof(ClearHint));
+            ClearHint();
             ClearSelection();
             if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(board, screenPosition, null, out var local)) return;
-            var destination = ClosestDestination(local);
+            var destination = ClosestDestination(local, card);
             if (destination.HasValue)
                 TryMove(new Move(card.Source, destination.Value, card.CardIndex));
         }
 
-        private PileRef? ClosestDestination(Vector2 point)
+        private PileRef? ClosestDestination(Vector2 point, CardView card)
         {
+            PileRef? closest = null;
+            var closestDistance = float.MaxValue;
             for (var i = 0; i < 4; i++)
-                if (Mathf.Abs(point.x - foundationTargets[i].x) <= cardSize.x * 0.5f &&
-                    Mathf.Abs(point.y - foundationTargets[i].y) <= cardSize.y * 0.5f)
-                    return new PileRef(PileKind.Foundation, i);
+            {
+                var target = new PileRef(PileKind.Foundation, i);
+                var distance = Vector2.Distance(point, foundationTargets[i]);
+                if (Mathf.Abs(point.x - foundationTargets[i].x) <= cardSize.x * 0.72f &&
+                    Mathf.Abs(point.y - foundationTargets[i].y) <= cardSize.y * 0.65f &&
+                    distance < closestDistance && session.Rules.CanMove(session.State, new Move(card.Source, target, card.CardIndex)))
+                {
+                    closest = target;
+                    closestDistance = distance;
+                }
+            }
             for (var i = 0; i < 7; i++)
-                if (Mathf.Abs(point.x - tableauTargets[i].x) <= cardSize.x * 0.5f &&
-                    point.y <= tableauTargets[i].y + cardSize.y * 0.5f &&
-                    point.y >= tableauDropTargets[i].y - cardSize.y * 0.5f)
-                    return new PileRef(PileKind.Tableau, i);
-            return null;
+            {
+                var target = new PileRef(PileKind.Tableau, i);
+                var top = tableauTargets[i].y + cardSize.y * 0.55f;
+                var bottom = tableauDropTargets[i].y - cardSize.y * 0.65f;
+                var nearestY = Mathf.Clamp(point.y, bottom, top);
+                var distance = Vector2.Distance(point, new Vector2(tableauTargets[i].x, nearestY));
+                if (Mathf.Abs(point.x - tableauTargets[i].x) <= cardSize.x * 0.72f &&
+                    point.y <= top && point.y >= bottom && distance < closestDistance &&
+                    session.Rules.CanMove(session.State, new Move(card.Source, target, card.CardIndex)))
+                {
+                    closest = target;
+                    closestDistance = distance;
+                }
+            }
+            return closest;
         }
 
         private void ShowHint()
         {
+            CancelInvoke(nameof(ClearHint));
+            ClearHint();
             var move = session.Rules.FindHint(session.State);
             ClearSelection();
-            if (move != null)
-                foreach (var view in renderedCards.Select(o => o.GetComponent<CardView>()).Where(v => v != null))
-                    if (view.Source.Kind == move.From.Kind && view.Source.Index == move.From.Index &&
-                        (move.CardIndex < 0 || view.CardIndex == move.CardIndex)) view.SetHighlighted(true);
+            if (move != null) HighlightMove(move);
             hint.text = move == null ? text.Get("no_hint") : DescribeMove(move);
             CancelInvoke(nameof(ClearHint));
             Invoke(nameof(ClearHint), 3f);
@@ -378,7 +408,39 @@ namespace BatsSolitaire.Presentation
             return text.Language.StartsWith("en") ? "A valid move is highlighted by its source pile" : "Há uma jogada válida na pilha de origem";
         }
 
-        private void ClearHint() => hint.text = string.Empty;
+        private void HighlightMove(Move move)
+        {
+            foreach (var view in renderedCards.Select(o => o.GetComponent<CardView>()).Where(v => v != null))
+            {
+                var samePile = view.Source.Kind == move.From.Kind && view.Source.Index == move.From.Index;
+                var inSequence = move.From.Kind == PileKind.Tableau && move.CardIndex >= 0
+                    ? view.CardIndex >= move.CardIndex : move.CardIndex < 0 || view.CardIndex == move.CardIndex;
+                if (samePile && inSequence) view.SetHighlighted(true);
+            }
+
+            var position = move.From.Kind == PileKind.Stock ? wasteTarget :
+                move.To.Kind == PileKind.Foundation ? foundationTargets[move.To.Index] : tableauDropTargets[move.To.Index];
+            hintTarget = UiFactory.Panel(board, Color.clear, Vector2.zero, Vector2.zero);
+            hintTarget.name = "HintDestination";
+            var rect = hintTarget.GetComponent<RectTransform>();
+            rect.sizeDelta = cardSize * 1.06f;
+            rect.anchoredPosition = position;
+            hintTarget.GetComponent<Image>().raycastTarget = false;
+            UiFactory.Border(hintTarget.transform, new Color(0.35f, 1f, 0.62f, 0.95f), UiFactory.Pixels(transform, 3));
+            hintTarget.transform.SetAsLastSibling();
+        }
+
+        private void ClearHint()
+        {
+            if (hint != null) hint.text = string.Empty;
+            if (hintTarget != null) Destroy(hintTarget);
+            hintTarget = null;
+            foreach (var rendered in renderedCards)
+            {
+                var view = rendered != null ? rendered.GetComponent<CardView>() : null;
+                if (view != null) view.SetHighlighted(false);
+            }
+        }
 
         private void TrySelectedDestination(PileRef destination)
         {
@@ -420,6 +482,34 @@ namespace BatsSolitaire.Presentation
                 var view = rendered != null ? rendered.GetComponent<CardView>() : null;
                 if (view != null) view.SetHighlighted(false);
             }
+        }
+
+        private void StartAutomaticMove()
+        {
+            if (autoRunning) return;
+            var move = session.Rules.FindBestMove(session.State);
+            ClearSelection();
+            ClearHint();
+            if (move == null)
+            {
+                hint.text = text.Get("no_auto_move");
+                audio.PlayInvalid();
+                Invoke(nameof(ClearHint), 3f);
+                return;
+            }
+            StartCoroutine(AutomaticMove(move));
+        }
+
+        private System.Collections.IEnumerator AutomaticMove(Move move)
+        {
+            autoRunning = true;
+            HighlightMove(move);
+            hint.text = DescribeMove(move);
+            if (!saves.Data.Settings.ReduceMotion) yield return new WaitForSecondsRealtime(0.24f);
+            ClearHint();
+            var moved = move.From.Kind == PileKind.Stock ? session.Draw() : session.Move(move);
+            if (moved) audio.PlayMove(); else audio.PlayInvalid();
+            autoRunning = false;
         }
 
         private void StartAutoComplete()
@@ -487,6 +577,8 @@ namespace BatsSolitaire.Presentation
         private void ShowPauseMenu()
         {
             if (pauseOverlay != null) return;
+            CancelInvoke(nameof(ClearHint));
+            ClearHint();
             StopAllCoroutines();
             autoRunning = false;
             var blocker = UiFactory.Panel(transform, new Color(0, 0, 0, 0.6f), Vector2.zero, Vector2.one);
@@ -496,12 +588,19 @@ namespace BatsSolitaire.Presentation
             UiFactory.Border(pauseOverlay.transform, new Color(0.85f, 0.70f, 0.48f, 0.9f));
             UiFactory.Label(pauseOverlay.transform, "BATS CARDS", 34, TextAnchor.MiddleCenter,
                 new Vector2(0.08f, 0.76f), new Vector2(0.92f, 0.94f), new Color(0.96f, 0.92f, 0.84f));
-            var resume = UiFactory.Button(pauseOverlay.transform, text.Get("resume"), new Vector2(0.14f, 0.55f), new Vector2(0.86f, 0.70f));
+            var resume = UiFactory.Button(pauseOverlay.transform, text.Get("resume"), new Vector2(0.14f, 0.66f), new Vector2(0.86f, 0.78f));
             UiFactory.SetAccent(resume);
             resume.onClick.AddListener(() => { Destroy(blocker); Destroy(pauseOverlay); pauseOverlay = null; });
-            var restart = UiFactory.Button(pauseOverlay.transform, text.Get("restart"), new Vector2(0.14f, 0.34f), new Vector2(0.86f, 0.49f));
+            var restart = UiFactory.Button(pauseOverlay.transform, text.Get("restart"), new Vector2(0.14f, 0.49f), new Vector2(0.86f, 0.61f));
             restart.onClick.AddListener(() => { session.Restart(); Destroy(blocker); Destroy(pauseOverlay); pauseOverlay = null; });
-            var mainMenu = UiFactory.Button(pauseOverlay.transform, text.Get("menu"), new Vector2(0.14f, 0.13f), new Vector2(0.86f, 0.28f));
+            var finish = UiFactory.Button(pauseOverlay.transform, text.Get("auto_finish"), new Vector2(0.14f, 0.32f), new Vector2(0.86f, 0.44f));
+            finish.interactable = session.Rules.IsSafeForAutoComplete(session.State);
+            finish.onClick.AddListener(() =>
+            {
+                Destroy(blocker); Destroy(pauseOverlay); pauseOverlay = null;
+                StartAutoComplete();
+            });
+            var mainMenu = UiFactory.Button(pauseOverlay.transform, text.Get("menu"), new Vector2(0.14f, 0.15f), new Vector2(0.86f, 0.27f));
             mainMenu.onClick.AddListener(showMenu.Invoke);
         }
 

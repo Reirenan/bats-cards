@@ -63,6 +63,46 @@ namespace BatsSolitaire.Tests.PlayMode
         }
 
         [Test]
+        public void ReadableIndex_TouchesCardAndUsesVectorSuit()
+        {
+            var texture = new Texture2D(120, 170);
+            var sprite = Sprite.Create(texture, new Rect(0, 0, 120, 170), new Vector2(0.5f, 0.5f));
+            var manifest = ScriptableObject.CreateInstance<DeckManifest>();
+            manifest.Cards.Add(new DeckManifest.Entry
+            {
+                Suit = CardSuit.Hearts,
+                Rank = CardRank.Ace,
+                Sprite = sprite
+            });
+            var card = new GameObject("IndexedCard");
+            card.transform.SetParent(root.transform, false);
+            var indexed = card.AddComponent<CardView>();
+            indexed.Initialize(new CardState(new CardId(CardSuit.Hearts, CardRank.Ace), true),
+                new PileRef(PileKind.Tableau, 0), 0, new Vector2(120, 170), manifest, root.GetComponent<Canvas>());
+            Canvas.ForceUpdateCanvases();
+
+            var cardCorners = new Vector3[4];
+            var badgeCorners = new Vector3[4];
+            card.GetComponent<RectTransform>().GetWorldCorners(cardCorners);
+            card.transform.Find("ReadableIndex").GetComponent<RectTransform>().GetWorldCorners(badgeCorners);
+            Assert.That(Mathf.Abs(cardCorners[1].y - badgeCorners[0].y), Is.LessThanOrEqualTo(0.5f));
+            Assert.That(card.GetComponentInChildren<UiIcon>().Kind, Is.EqualTo("hearts"));
+
+            Object.DestroyImmediate(manifest);
+            Object.DestroyImmediate(sprite);
+            Object.DestroyImmediate(texture);
+        }
+
+        [Test]
+        public void MenuButtonIcon_UsesLargeReadableSize()
+        {
+            var button = UiFactory.Button(root.transform, "Teste", Vector2.zero, Vector2.one);
+            UiFactory.Icon(button, "shuffle");
+            var icon = button.GetComponentInChildren<UiIcon>().rectTransform;
+            Assert.That(icon.sizeDelta.x, Is.GreaterThanOrEqualTo(UiFactory.Pixels(button.transform, 30)));
+        }
+
+        [Test]
         public void DragSequence_MovesAllCardsAndRestoresInvalidDrop()
         {
             var other = new GameObject("Next");

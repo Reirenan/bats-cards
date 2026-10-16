@@ -83,8 +83,9 @@ namespace BatsSolitaire.Presentation
             title.fontStyle = FontStyle.Bold;
             UiFactory.Label(panel.transform, "—  C A R D S  —", 35, TextAnchor.MiddleCenter,
                 new Vector2(0.06f, 0.69f), new Vector2(0.43f, 0.78f), new Color(0.96f, 0.92f, 0.84f));
-            UiFactory.Label(panel.transform, "♣   ♥   ♦   ♠", 25, TextAnchor.MiddleCenter,
-                new Vector2(0.11f, 0.65f), new Vector2(0.38f, 0.72f), new Color(0.69f, 0.08f, 0.15f));
+            var menuSuits = UiFactory.Label(panel.transform, "♣   ♥   ♦   ♠", 40, TextAnchor.MiddleCenter,
+                new Vector2(0.09f, 0.64f), new Vector2(0.40f, 0.73f), new Color(0.69f, 0.08f, 0.15f));
+            menuSuits.fontStyle = FontStyle.Bold;
             UiFactory.Label(panel.transform, text.Get("tagline"), 26, TextAnchor.MiddleCenter,
                 new Vector2(0.06f, 0.60f), new Vector2(0.43f, 0.67f), new Color(0.96f, 0.92f, 0.84f));
             AddMenuCardFan(panel.transform);

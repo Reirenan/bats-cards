@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 using BatsSolitaire.Core;
 using BatsSolitaire.Services;
 using NUnit.Framework;
@@ -72,6 +73,49 @@ namespace BatsSolitaire.Tests
             var first = rules.CreateGame(999, GameMode.Random);
             var second = rules.CreateGame(999, GameMode.Random);
             CollectionAssert.AreEqual(first.AllCards().Select(card => card.Card), second.AllCards().Select(card => card.Card));
+        }
+
+        [Test]
+        public void ConsecutiveRandomSeeds_ProduceDifferentDeals()
+        {
+            var seeds = new HashSet<long>();
+            var deals = new HashSet<string>();
+            for (var i = 0; i < 64; i++)
+            {
+                var seed = SeedService.RandomSeed();
+                Assert.That(seeds.Add(seed), Is.True);
+                var state = rules.CreateGame(seed, GameMode.Random);
+                deals.Add(string.Join(",", state.AllCards().Select(card => card.Card.Key)));
+            }
+            Assert.That(deals.Count, Is.EqualTo(64));
+        }
+
+        [Test]
+        public void BestMove_PrioritizesSequenceThatRevealsHiddenCard()
+        {
+            var state = new GameState();
+            state.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Clubs, CardRank.Nine), false));
+            state.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Hearts, CardRank.Seven), true));
+            state.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Spades, CardRank.Six), true));
+            state.Tableau[1].Cards.Add(new CardState(new CardId(CardSuit.Clubs, CardRank.Eight), true));
+
+            var move = rules.FindBestMove(state);
+            Assert.That(move, Is.Not.Null);
+            Assert.That(move.From.Kind, Is.EqualTo(PileKind.Tableau));
+            Assert.That(move.From.Index, Is.Zero);
+            Assert.That(move.To.Index, Is.EqualTo(1));
+            Assert.That(move.CardIndex, Is.EqualTo(1));
+            Assert.That(rules.CanMove(state, move), Is.True);
+        }
+
+        [Test]
+        public void EmptyTableau_AcceptsOnlyKing()
+        {
+            var state = new GameState();
+            state.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Hearts, CardRank.Queen), true));
+            state.Tableau[1].Cards.Add(new CardState(new CardId(CardSuit.Spades, CardRank.King), true));
+            Assert.That(rules.CanMove(state, new Move(new PileRef(PileKind.Tableau, 0), new PileRef(PileKind.Tableau, 2), 0)), Is.False);
+            Assert.That(rules.CanMove(state, new Move(new PileRef(PileKind.Tableau, 1), new PileRef(PileKind.Tableau, 2), 0)), Is.True);
         }
 
         [Test]

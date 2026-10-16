@@ -147,6 +147,22 @@ namespace BatsSolitaire.Core
 
         public Move FindHint(GameState state)
         {
+            return FindBestMove(state);
+        }
+
+        public Move FindBestMove(GameState state)
+        {
+            if (state == null || state.Won) return null;
+            Move best = null;
+            var bestScore = int.MinValue;
+
+            void Consider(Move move, int score)
+            {
+                if (score <= bestScore || !CanMove(state, move)) return;
+                best = move;
+                bestScore = score;
+            }
+
             for (var column = 0; column < 7; column++)
             {
                 var pile = state.Tableau[column].Cards;
@@ -155,12 +171,15 @@ namespace BatsSolitaire.Core
                     if (!pile[index].FaceUp) continue;
                     var source = new PileRef(PileKind.Tableau, column);
                     var foundationMove = FindAutoFoundationMove(state, source, index);
-                    if (foundationMove != null) return foundationMove;
+                    if (foundationMove != null)
+                        Consider(foundationMove, IsSafeFoundationMove(state, pile[index].Card) ? 800 : 300);
                     for (var target = 0; target < 7; target++)
                     {
                         if (target == column) continue;
                         var move = new Move(source, new PileRef(PileKind.Tableau, target), index);
-                        if (CanMove(state, move)) return move;
+                        var revealsCard = index > 0 && !pile[index - 1].FaceUp;
+                        var emptiesColumn = index == 0;
+                        Consider(move, revealsCard ? 1000 : emptiesColumn ? 420 : 180);
                     }
                 }
             }
@@ -169,17 +188,28 @@ namespace BatsSolitaire.Core
             {
                 var source = new PileRef(PileKind.Waste);
                 var foundationMove = FindAutoFoundationMove(state, source);
-                if (foundationMove != null) return foundationMove;
+                if (foundationMove != null)
+                    Consider(foundationMove, IsSafeFoundationMove(state, state.Waste[^1].Card) ? 850 : 320);
                 for (var target = 0; target < 7; target++)
                 {
                     var move = new Move(source, new PileRef(PileKind.Tableau, target));
-                    if (CanMove(state, move)) return move;
+                    Consider(move, 700);
                 }
             }
 
+            if (best != null) return best;
             return state.Stock.Count > 0 || state.Waste.Count > 0
-                ? new Move(new PileRef(PileKind.Stock), new PileRef(PileKind.Waste))
-                : null;
+                ? new Move(new PileRef(PileKind.Stock), new PileRef(PileKind.Waste)) : null;
+        }
+
+        private static bool IsSafeFoundationMove(GameState state, CardId card)
+        {
+            if (card.Value <= 2) return true;
+            var first = card.IsRed ? CardSuit.Clubs : CardSuit.Diamonds;
+            var second = card.IsRed ? CardSuit.Spades : CardSuit.Hearts;
+            var firstValue = state.Foundations[(int)first].Cards.LastOrDefault()?.Card.Value ?? 0;
+            var secondValue = state.Foundations[(int)second].Cards.LastOrDefault()?.Card.Value ?? 0;
+            return card.Value <= Math.Min(firstValue, secondValue) + 1;
         }
 
         public bool IsSafeForAutoComplete(GameState state)

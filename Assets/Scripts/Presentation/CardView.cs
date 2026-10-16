@@ -47,6 +47,8 @@ namespace BatsSolitaire.Presentation
             image.sprite = sprite;
             image.preserveAspect = true;
             image.color = sprite != null ? Color.white : state.FaceUp ? new Color(0.98f, 0.97f, 0.91f) : new Color(0.36f, 0.66f, 0.61f);
+            var hitPadding = UiFactory.Pixels(transform, 8);
+            image.raycastPadding = new Vector4(-hitPadding, -hitPadding, -hitPadding, -hitPadding);
             baseColor = image.color;
             selection = UiFactory.Panel(transform, Color.clear, Vector2.zero, Vector2.one);
             selection.name = "SelectionBorder";
@@ -57,19 +59,28 @@ namespace BatsSolitaire.Presentation
             if (sprite == null) BuildFallbackLabel(state);
             else if (state.FaceUp)
             {
-                // Cover only the original upper-left index. Photos, names, logo and lower index stay intact.
-                var cover = UiFactory.Panel(transform, Color.white, new Vector2(0.005f, 0.795f), new Vector2(0.16f, 0.997f));
-                cover.GetComponent<Image>().raycastTarget = false;
-                var badge = UiFactory.Panel(transform, Color.white, new Vector2(0, 1), Vector2.one);
+                var badge = UiFactory.Panel(transform, new Color(0.985f, 0.97f, 0.91f), new Vector2(0, 1), Vector2.one);
                 badge.name = "ReadableIndex";
                 badge.GetComponent<Image>().raycastTarget = true;
                 var badgeRect = badge.GetComponent<RectTransform>();
                 badgeRect.pivot = new Vector2(0.5f, 0);
-                badgeRect.sizeDelta = new Vector2(0, UiFactory.Pixels(transform, 18));
-                var label = UiFactory.Label(badge.transform, state.Card.RankSymbol + " " + state.Card.SuitSymbol,
-                    28, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, state.Card.IsRed ? new Color(0.7f, 0.02f, 0.08f) : Color.black);
-                label.resizeTextMinSize = label.resizeTextMaxSize = Mathf.RoundToInt(UiFactory.Pixels(transform, 14));
+                badgeRect.sizeDelta = new Vector2(0, UiFactory.Pixels(transform, 22));
+                UiFactory.Border(badge.transform, new Color(0.24f, 0.16f, 0.10f, 0.72f), 1f);
+                var color = state.Card.IsRed ? new Color(0.72f, 0.02f, 0.08f) : new Color(0.025f, 0.025f, 0.025f);
+                var label = UiFactory.Label(badge.transform, state.Card.RankSymbol,
+                    30, TextAnchor.MiddleRight, new Vector2(0.08f, 0), new Vector2(0.50f, 1), color);
+                label.resizeTextMinSize = label.resizeTextMaxSize = Mathf.RoundToInt(UiFactory.Pixels(transform, 15));
                 label.fontStyle = FontStyle.Bold;
+                var suitObject = new GameObject("Suit_" + state.Card.Suit, typeof(RectTransform), typeof(UiIcon));
+                suitObject.transform.SetParent(badge.transform, false);
+                var suitRect = suitObject.GetComponent<RectTransform>();
+                suitRect.anchorMin = new Vector2(0.52f, 0.14f);
+                suitRect.anchorMax = new Vector2(0.78f, 0.86f);
+                suitRect.offsetMin = suitRect.offsetMax = Vector2.zero;
+                var suit = suitObject.GetComponent<UiIcon>();
+                suit.Kind = state.Card.Suit.ToString().ToLowerInvariant();
+                suit.color = color;
+                suit.raycastTarget = false;
             }
         }
 
