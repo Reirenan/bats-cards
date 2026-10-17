@@ -128,6 +128,11 @@ namespace BatsSolitaire.Editor
             settings.enableTightPacking = false;
             settings.padding = 4;
             atlas.SetPackingSettings(settings);
+            // Cards are strongly reduced on phones. Mipmaps prevent noisy text/photos at that scale.
+            var textureSettings = atlas.GetTextureSettings();
+            textureSettings.generateMipMaps = true;
+            textureSettings.filterMode = FilterMode.Trilinear;
+            atlas.SetTextureSettings(textureSettings);
             EditorUtility.SetDirty(atlas);
             AssetDatabase.SaveAssets();
         }

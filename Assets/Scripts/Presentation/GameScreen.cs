@@ -98,7 +98,7 @@ namespace BatsSolitaire.Presentation
                 new Vector2(0.11f, 0), new Vector2(0.50f, 1), new Color(0.96f, 0.92f, 0.84f));
             var auto = AddTopButton(bar.transform, text.Get("auto_move"), 0.57f, 0.68f, StartAutomaticMove);
             UiFactory.SetAccent(auto);
-            AddTopButton(bar.transform, text.Get("undo"), 0.69f, 0.80f, () => session.Undo());
+            AddTopButton(bar.transform, text.Get("undo"), 0.69f, 0.80f, () => { if (!autoRunning) session.Undo(); });
             AddTopButton(bar.transform, text.Get("hint"), 0.81f, 0.91f, ShowHint);
             AddTopButton(bar.transform, "Menu", 0.93f, 0.985f, ShowPauseMenu);
             hint = UiFactory.Label(background.transform, string.Empty, 26, TextAnchor.MiddleCenter,
@@ -185,7 +185,7 @@ namespace BatsSolitaire.Presentation
             var width = board.rect.width > 0 ? board.rect.width : 1920;
             var height = board.rect.height > 0 ? board.rect.height : 1080;
             var availableWidth = width * 0.98f;
-            var cardWidth = Mathf.Min(availableWidth / 7.2f, height * 0.16f);
+            var cardWidth = Mathf.Min(availableWidth / 7.2f, height * 0.21f);
             var aspect = manifest != null && manifest.Back != null
                 ? manifest.Back.rect.height / manifest.Back.rect.width : 1.416f;
             cardSize = new Vector2(cardWidth, cardWidth * aspect);
@@ -234,7 +234,7 @@ namespace BatsSolitaire.Presentation
         private void RenderTableau()
         {
             var faceDownOffset = cardSize.y * 0.16f;
-            var faceUpOffset = Mathf.Max(cardSize.y * 0.29f, UiFactory.Pixels(transform, 20));
+            var faceUpOffset = Mathf.Max(cardSize.y * 0.29f, UiFactory.Pixels(transform, 28));
             for (var column = 0; column < 7; column++)
             {
                 var pile = session.State.Tableau[column].Cards;
@@ -247,7 +247,7 @@ namespace BatsSolitaire.Presentation
                 var downCount = Mathf.Max(0, pile.Count - 1 - upCount);
                 var upStep = faceUpOffset * compression;
                 var downStep = faceDownOffset * compression;
-                var readableStep = UiFactory.Pixels(transform, 20);
+                var readableStep = UiFactory.Pixels(transform, 26);
                 var hiddenStep = UiFactory.Pixels(transform, 2);
                 if (availableSpread >= upCount * readableStep + downCount * hiddenStep)
                 {
@@ -392,6 +392,7 @@ namespace BatsSolitaire.Presentation
 
         private void ShowHint()
         {
+            if (autoRunning) return;
             CancelInvoke(nameof(ClearHint));
             ClearHint();
             var move = session.Rules.FindHint(session.State);
@@ -420,7 +421,7 @@ namespace BatsSolitaire.Presentation
 
             var position = move.From.Kind == PileKind.Stock ? wasteTarget :
                 move.To.Kind == PileKind.Foundation ? foundationTargets[move.To.Index] : tableauDropTargets[move.To.Index];
-            hintTarget = UiFactory.Panel(board, Color.clear, Vector2.zero, Vector2.zero);
+            hintTarget = UiFactory.Panel(board, Color.clear, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f));
             hintTarget.name = "HintDestination";
             var rect = hintTarget.GetComponent<RectTransform>();
             rect.sizeDelta = cardSize * 1.06f;
@@ -444,6 +445,7 @@ namespace BatsSolitaire.Presentation
 
         private void TrySelectedDestination(PileRef destination)
         {
+            if (autoRunning) return;
             if (!selectedSource.HasValue) return;
             var move = new Move(selectedSource.Value, destination, selectedCardIndex);
             ClearSelection();
@@ -456,7 +458,9 @@ namespace BatsSolitaire.Presentation
             {
                 var view = rendered != null ? rendered.GetComponent<CardView>() : null;
                 if (view == null) continue;
-                var isSelected = view == selected;
+                var isSelected = view == selected || (selected.Source.Kind == PileKind.Tableau &&
+                    view.Source.Kind == PileKind.Tableau && view.Source.Index == selected.Source.Index &&
+                    view.CardIndex >= selected.CardIndex);
                 var isTop = view.Source.Kind switch
                 {
                     PileKind.Tableau => view.CardIndex == session.State.Tableau[view.Source.Index].Cards.Count - 1,
@@ -487,13 +491,14 @@ namespace BatsSolitaire.Presentation
         private void StartAutomaticMove()
         {
             if (autoRunning) return;
+            CancelInvoke(nameof(ClearHint));
             var move = session.Rules.FindBestMove(session.State);
             ClearSelection();
             ClearHint();
             if (move == null)
             {
                 hint.text = text.Get("no_auto_move");
-                audio.PlayInvalid();
+                audio?.PlayInvalid();
                 Invoke(nameof(ClearHint), 3f);
                 return;
             }
@@ -503,13 +508,17 @@ namespace BatsSolitaire.Presentation
         private System.Collections.IEnumerator AutomaticMove(Move move)
         {
             autoRunning = true;
-            HighlightMove(move);
-            hint.text = DescribeMove(move);
-            if (!saves.Data.Settings.ReduceMotion) yield return new WaitForSecondsRealtime(0.24f);
-            ClearHint();
-            var moved = move.From.Kind == PileKind.Stock ? session.Draw() : session.Move(move);
-            if (moved) audio.PlayMove(); else audio.PlayInvalid();
-            autoRunning = false;
+            try
+            {
+                HighlightMove(move);
+                hint.text = DescribeMove(move);
+                if (!saves.Data.Settings.ReduceMotion) yield return new WaitForSecondsRealtime(0.24f);
+                ClearHint();
+                var moved = move.From.Kind == PileKind.Stock ? session.Draw() : session.Move(move);
+                if (moved) audio?.PlayMove(); else audio?.PlayInvalid();
+                if (!saves.Data.Settings.ReduceMotion) yield return new WaitForSecondsRealtime(0.2f);
+            }
+            finally { autoRunning = false; }
         }
 
         private void StartAutoComplete()
@@ -606,6 +615,7 @@ namespace BatsSolitaire.Presentation
 
         private void TryDraw()
         {
+            if (autoRunning) return;
             if (session.Draw()) audio.PlayMove();
             else audio.PlayInvalid();
         }

@@ -179,6 +179,11 @@ namespace BatsSolitaire.Core
                         var move = new Move(source, new PileRef(PileKind.Tableau, target), index);
                         var revealsCard = index > 0 && !pile[index - 1].FaceUp;
                         var emptiesColumn = index == 0;
+                        // Moving a whole king pile to another empty column cannot advance the game.
+                        if (emptiesColumn && state.Tableau[target].Cards.Count == 0) continue;
+                        // Do not shuffle the same exposed suffix back and forth between equivalent parents.
+                        if (!revealsCard && !emptiesColumn &&
+                            FindAutoFoundationMoveAfterRemovingSuffix(state, column, index) == false) continue;
                         Consider(move, revealsCard ? 1000 : emptiesColumn ? 420 : 180);
                     }
                 }
@@ -210,6 +215,14 @@ namespace BatsSolitaire.Core
             var firstValue = state.Foundations[(int)first].Cards.LastOrDefault()?.Card.Value ?? 0;
             var secondValue = state.Foundations[(int)second].Cards.LastOrDefault()?.Card.Value ?? 0;
             return card.Value <= Math.Min(firstValue, secondValue) + 1;
+        }
+
+        private static bool FindAutoFoundationMoveAfterRemovingSuffix(GameState state, int column, int index)
+        {
+            if (index <= 0) return false;
+            var exposed = state.Tableau[column].Cards[index - 1];
+            return exposed.FaceUp && IsSafeFoundationMove(state, exposed.Card) &&
+                CanPlaceOnFoundation(state, (int)exposed.Card.Suit, exposed);
         }
 
         public bool IsSafeForAutoComplete(GameState state)

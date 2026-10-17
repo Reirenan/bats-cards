@@ -20,6 +20,7 @@ namespace BatsSolitaire.Presentation
         private int homeSibling;
         private GameObject selection;
         private bool suppressClick;
+        private Image indexBackground;
         public bool ReduceMotion { get; set; }
         public Sprite OriginalSprite => image.sprite;
         public bool IsDragging { get; private set; }
@@ -64,7 +65,8 @@ namespace BatsSolitaire.Presentation
                 badge.GetComponent<Image>().raycastTarget = true;
                 var badgeRect = badge.GetComponent<RectTransform>();
                 badgeRect.pivot = new Vector2(0.5f, 0);
-                badgeRect.sizeDelta = new Vector2(0, UiFactory.Pixels(transform, 22));
+                badgeRect.sizeDelta = new Vector2(0, UiFactory.Pixels(transform, 24));
+                indexBackground = badge.GetComponent<Image>();
                 UiFactory.Border(badge.transform, new Color(0.24f, 0.16f, 0.10f, 0.72f), 1f);
                 var color = state.Card.IsRed ? new Color(0.72f, 0.02f, 0.08f) : new Color(0.025f, 0.025f, 0.025f);
                 var label = UiFactory.Label(badge.transform, state.Card.RankSymbol,
@@ -82,6 +84,9 @@ namespace BatsSolitaire.Presentation
                 suit.color = color;
                 suit.raycastTarget = false;
             }
+            var selectionRect = selection.GetComponent<RectTransform>();
+            selectionRect.offsetMax = new Vector2(0, indexBackground != null ? UiFactory.Pixels(transform, 24) : 0);
+            selection.transform.SetAsLastSibling();
         }
 
         public void SetAnchoredPosition(Vector2 position)
@@ -93,6 +98,8 @@ namespace BatsSolitaire.Presentation
         public void SetHighlighted(bool highlighted)
         {
             selection.SetActive(highlighted);
+            if (indexBackground != null)
+                indexBackground.color = highlighted ? new Color(1f, 0.77f, 0.28f) : new Color(0.985f, 0.97f, 0.91f);
         }
 
         public void OnPointerClick(PointerEventData eventData)

@@ -68,6 +68,16 @@ namespace BatsSolitaire.Tests
         }
 
         [Test]
+        public void Auto_DoesNotMoveKingBetweenEmptyColumns()
+        {
+            var state = new GameState();
+            state.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Clubs, CardRank.King), true));
+            Assert.That(rules.FindBestMove(state), Is.Null);
+            state.Stock.Add(new CardState(new CardId(CardSuit.Hearts, CardRank.Ace), false));
+            Assert.That(rules.FindBestMove(state).From.Kind, Is.EqualTo(PileKind.Stock));
+        }
+
+        [Test]
         public void SameSeed_ProducesSameDeal()
         {
             var first = rules.CreateGame(999, GameMode.Random);

@@ -122,6 +122,59 @@ namespace BatsSolitaire.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator HintAndAuto_MoveNineEightTogether()
+        {
+            Object.DestroyImmediate(view.gameObject);
+            var path = Path.Combine(Path.GetTempPath(), System.Guid.NewGuid() + ".json");
+            var saves = new SaveService(path);
+            var session = new GameSession(saves);
+            session.NewGame(GameMode.Random, 123);
+            session.State.Stock.Clear();
+            foreach (var pile in session.State.Tableau) pile.Cards.Clear();
+            session.State.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Clubs, CardRank.Two), false));
+            session.State.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Diamonds, CardRank.Nine), true));
+            session.State.Tableau[0].Cards.Add(new CardState(new CardId(CardSuit.Clubs, CardRank.Eight), true));
+            session.State.Tableau[1].Cards.Add(new CardState(new CardId(CardSuit.Spades, CardRank.Ten), true));
+            var screenObject = new GameObject("Screen", typeof(RectTransform));
+            screenObject.transform.SetParent(root.transform, false);
+            var screenRect = screenObject.GetComponent<RectTransform>();
+            screenRect.anchorMin = Vector2.zero;
+            screenRect.anchorMax = Vector2.one;
+            screenRect.offsetMin = screenRect.offsetMax = Vector2.zero;
+            var screen = screenObject.AddComponent<GameScreen>();
+            saves.Data.Settings.ReduceMotion = true;
+            screen.Initialize(session, saves, new TextCatalog(), root.GetComponent<Canvas>(), null, () => { });
+            yield return null;
+            screenObject.GetComponentsInChildren<Button>().First(b => b.name == "Button_Dica").onClick.Invoke();
+            var moving = screenObject.GetComponentsInChildren<CardView>()
+                .Where(c => c.Source.Kind == PileKind.Tableau && c.Source.Index == 0 && c.State.FaceUp).ToArray();
+            Assert.That(moving.Length, Is.EqualTo(2));
+            foreach (var card in moving)
+            {
+                Assert.That(card.transform.Find("SelectionBorder").gameObject.activeSelf, Is.True);
+                Assert.That(card.transform.Find("ReadableIndex").GetComponent<Image>().color.g, Is.LessThan(0.9f));
+            }
+            var target = screenObject.GetComponentsInChildren<RectTransform>().First(t => t.name == "HintDestination");
+            var ten = screenObject.GetComponentsInChildren<CardView>().First(c => c.State.Card.Rank == CardRank.Ten);
+            Assert.That(Vector3.Distance(target.position, ten.transform.position), Is.LessThan(1f));
+            var auto = screenObject.GetComponentsInChildren<Button>().First(b => b.name == "Button_Jogada automática");
+            auto.onClick.Invoke();
+            yield return null;
+            Assert.That(session.State.Tableau[0].Cards.Count, Is.EqualTo(1));
+            Assert.That(session.State.Tableau[0].Cards[0].FaceUp, Is.True);
+            CollectionAssert.AreEqual(new[] { CardRank.Ten, CardRank.Nine, CardRank.Eight },
+                session.State.Tableau[1].Cards.Select(c => c.Card.Rank));
+            Assert.That(session.State.Moves, Is.EqualTo(1));
+            Assert.That(session.Undo(), Is.True);
+            saves.Data.Settings.ReduceMotion = false;
+            auto.onClick.Invoke();
+            auto.onClick.Invoke(); // A second tap during the animation must not apply another move.
+            yield return new WaitForSecondsRealtime(0.6f);
+            Assert.That(session.State.Moves, Is.EqualTo(1), "Auto must remain usable on a second click");
+            foreach (var file in new[] { path, path + ".bak", path + ".tmp" }) if (File.Exists(file)) File.Delete(file);
+        }
+
+        [UnityTest]
         public IEnumerator Gallery_FiltersAllOriginalsAndNavigatesWithoutChangingSave()
         {
             var path = Path.Combine(Path.GetTempPath(), System.Guid.NewGuid() + ".json");
